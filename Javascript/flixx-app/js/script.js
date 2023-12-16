@@ -1,10 +1,21 @@
 const global = {
-    currrentPage: window.location.pathname.replace("/Javascript/flixx-app", "")
+    currrentPage: window.location.pathname.replace("/Javascript/flixx-app", ""),
+    search: {
+        term: '',
+        type: '',
+        page: 1,
+        totalPages: 1
+    },
+    api: {
+        apiKey: '9fd261b4082fd36bb73e5398227bde4d',
+        apiUrl: 'https://api.themoviedb.org/3/'
+    }
 };
 const popularMoviesContainer = document.querySelector("#popular-movies");
 const popularShowsContainer = document.querySelector("#popular-shows");
 const movieDetails = document.querySelector("#movie-details");
 const showDetails = document.querySelector('#show-details');
+const searchResultsContainer = document.querySelector('#search-results');
 
 async function displayPopularMovies() {
     const { results } = await fetchAPIData('movie/popular');
@@ -194,14 +205,125 @@ function displayBackgroundImage(type, backgroundPath) {
     }
 }
 
+// Search Movies/Shows
+async function search() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    global.search.type = urlParams.get('type');
+    global.search.term = urlParams.get('search-term');
+
+    if (global.search.term !== '' && global.search.term !== null) {
+        const { results, total_pages, page } = await searchAPIData();
+
+        if (results.length === 0) {
+            showAlert('No results found');
+            return;
+        }
+
+        displaySearchResults(results);
+    } else {
+        showAlert('Please enter a search term');
+    }
+}
+
+function displaySearchResults(results) {
+    results.forEach((result) => {
+        const div = document.createElement("div");
+        div.classList.add("card");
+        const img = result.poster_path ? `
+            <img
+            src="https://image.tmdb.org/t/p/w500${result.poster_path}"
+            class="card-img-top"
+            alt="${global.search.type === 'movie' ? result.title : result.name}"/>` : `
+            <img
+            src="images/no-image.jpg"
+            class="card-img-top"
+            alt="${global.search.type === 'movie' ? result.title : result.name}"
+            />`;
+        div.innerHTML = `
+            <a href="${global.search.type}-details.html?id=${result.id}">
+            ${img}
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">${global.search.type === 'movie' ? result.title : result.name}</h5>
+                <p class="card-text">
+                <small class="text-muted">Release: ${global.search.type === 'movie' ? result.release_date : result.first_air_date}</small>
+                </p>
+            </div>
+        `;
+        searchResultsContainer.appendChild(div);
+    });
+}
+
+// Display slider movies
+async function displaySlider() {
+    const { results } = await fetchAPIData('movie/now_playing');
+
+    results.forEach((movie) => {
+        const div = document.createElement('div');
+        div.classList.add('swiper-slide');
+        div.innerHTML = `
+            <a href="movie-details.html?id=${movie.id}">
+                <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
+            </a>
+            <h4 class="swiper-rating">
+                <i class="fas fa-star text-secondary"></i> ${movie.vote_average.toFixed(1)} / 10
+            </h4>
+        `;
+        document.querySelector('.swiper-wrapper').appendChild(div);
+    });
+    initSwiper();
+}
+
+function initSwiper() {
+    const swiper = new Swiper('.swiper', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        freeMode: true,
+        loop: true,
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false
+        },
+        breakpoints: {
+            500: {
+                slidesPerView: 2
+            },
+            700: {
+                slidesPerView: 3
+            },
+            1200: {
+                slidesPerView: 4
+            }
+        }
+    });
+}
+
 // Fetch data from TMDB API
 async function fetchAPIData(endpoint) {
-    const API_KEY = "9fd261b4082fd36bb73e5398227bde4d";
-    const API_URL = "https://api.themoviedb.org/3/";
+    const API_KEY = global.api.apiKey;
+    const API_URL = global.api.apiUrl;
 
     showSpinner();
     
     const response = await fetch(`${API_URL}${endpoint}?api_key=${API_KEY}&language=en-US`);
+    
+    const data = await response.json();
+
+    hideSpinner();
+
+    return data
+}
+
+// Make a search request for movies
+async function searchAPIData() {
+    const API_KEY = global.api.apiKey;
+    const API_URL = global.api.apiUrl;
+
+    showSpinner();
+    
+    const response = await fetch(`${API_URL}search/${global.search.type}?api_key=${API_KEY}&language=en-US&query=${global.search.term}`);
     
     const data = await response.json();
 
@@ -216,6 +338,18 @@ function showSpinner() {
 
 function hideSpinner() {
     document.querySelector('.spinner').classList.remove('show');
+}
+
+// Show Alert
+function showAlert(message, className = 'alert-error') {
+    const alertEl = document.createElement('div');
+    alertEl.classList.add('alert', className);
+    alertEl.appendChild(document.createTextNode(message));
+    document.querySelector('#alert').appendChild(alertEl);
+
+    setTimeout(() => {
+        alertEl.remove();
+    }, 3000);
 }
 
 // Highlight active link
@@ -233,6 +367,7 @@ function init() {
     switch (global.currrentPage) {
         case "/":
         case "/index.html":
+            displaySlider();
             displayPopularMovies();
             break;
         case "/shows.html":
@@ -245,7 +380,7 @@ function init() {
             displayShowDetails();
             break;
         case "/search.html":
-            console.log("Search");
+            search();
             break;
     }
     highlightActiveLink();
