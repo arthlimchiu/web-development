@@ -4,6 +4,7 @@ const global = {
 const popularMoviesContainer = document.querySelector("#popular-movies");
 const popularShowsContainer = document.querySelector("#popular-shows");
 const movieDetails = document.querySelector("#movie-details");
+const showDetails = document.querySelector('#show-details');
 
 async function displayPopularMovies() {
     const { results } = await fetchAPIData('movie/popular');
@@ -118,6 +119,60 @@ async function displayMovieDetails() {
     movieDetails.appendChild(div);
 }
 
+async function displayShowDetails() {
+    const id = window.location.search.split("=")[1];
+    const show = await fetchAPIData(`tv/${id}`);
+
+    // Overlay for background image
+    displayBackgroundImage('tv', show.backdrop_path);
+
+    const img = show.poster_path ? `
+        <img
+        src="https://image.tmdb.org/t/p/w500${show.poster_path}"
+        class="card-img-top"
+        alt="Show Name"
+        /> ` : `
+        <img
+        src="images/no-image.jpg"
+        class="card-img-top"
+        alt="${show.title}"
+        />
+    `;
+    const genres = show.genres.map((genre) => `<li>${genre.name}</li>`).join('');
+    const productionCompanies = show.production_companies.map((company) => company.name).join(', ');
+    const div = document.createElement('div');
+    div.innerHTML = `
+        <div class="details-top">
+            <div>${img}</div>
+            <div>
+            <h2>${show.title}</h2>
+            <p>
+                <i class="fas fa-star text-primary"></i>
+                ${show.vote_average.toFixed(1)} / 10
+            </p>
+            <p class="text-muted">Last Air Date: ${show.last_air_date}</p>
+            <p>${show.overview}</p>
+            <h5>Genres</h5>
+            <ul class="list-group">${genres}</ul>
+            <a href="${show.homepage}" target="_blank" class="btn">Visit Show Homepage</a>
+            </div>
+        </div>
+        <div class="details-bottom">
+            <h2>Show Info</h2>
+            <ul>
+            <li><span class="text-secondary">Number Of Episodes:</span> ${show.number_of_episodes}</li>
+            <li>
+                <span class="text-secondary">Last Episode To Air:</span> ${show.last_episode_to_air.name}
+            </li>
+            <li><span class="text-secondary">Status:</span> ${show.status}</li>
+            </ul>
+            <h4>Production Companies</h4>
+            <div class="list-group">${productionCompanies}</div>
+        </div>
+    `;
+    showDetails.appendChild(div);
+}
+
 // Display backdrop on details pages
 function displayBackgroundImage(type, backgroundPath) {
     const overlayDiv = document.createElement('div');
@@ -187,7 +242,7 @@ function init() {
             displayMovieDetails();
             break;
         case "/tv-details.html":
-            console.log("TV Details");
+            displayShowDetails();
             break;
         case "/search.html":
             console.log("Search");
