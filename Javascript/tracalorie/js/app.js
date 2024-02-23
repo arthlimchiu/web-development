@@ -3,7 +3,7 @@ class CalorieTracker {
         this._calorieLimit = Storage.getCalorieLimit();
         this._totalCalories = Storage.getTotalCalories();
         this._meals = Storage.getMeals();
-        this._workouts = [];
+        this._workouts = Storage.getWorkouts();
 
         this._displayCaloriesLimit();
         this._displayCaloriesTotal();
@@ -26,6 +26,7 @@ class CalorieTracker {
         this._workouts.push(workout);
         this._totalCalories -= workout.calories;
         Storage.updateTotalCalories(this._totalCalories);
+        Storage.saveWorkout(workout);
         this._displayNewWorkout(workout);
         this._render();
     }
@@ -36,6 +37,7 @@ class CalorieTracker {
             const meal = this._meals[index];
             this._totalCalories -= meal.calories;
             Storage.updateTotalCalories(this._totalCalories);
+            Storage.removeMeal(id);
             this._meals.splice(index, 1);
             this._render();
         }
@@ -47,6 +49,7 @@ class CalorieTracker {
             const workout = this._workouts[index];
             this._totalCalories += workout.calories;
             Storage.updateTotalCalories(this._totalCalories);
+            Storage.removeWorkout(id);
             this._workouts.splice(index, 1);
             this._render();
         }
@@ -235,6 +238,16 @@ class Storage {
         localStorage.setItem('meals', JSON.stringify(meals));
     }
 
+    static removeMeal(id) {
+        const meals = Storage.getMeals();
+        const index = meals.findIndex((meal) => meal.id === id);
+        console.log(index);
+        if (index !== -1) {
+            meals.splice(index, 1);
+        }
+        localStorage.setItem('meals', JSON.stringify(meals));
+    }
+
     static getWorkouts() {
         let workouts;
         if (localStorage.getItem('workouts') === null) {
@@ -247,7 +260,17 @@ class Storage {
 
     static saveWorkout(workout) {
         const workouts = Storage.getWorkouts();
-        workouts.push(meal);
+        workouts.push(workout);
+        localStorage.setItem('workouts', JSON.stringify(workouts));
+    }
+
+    static removeWorkout(id) {
+        const workouts = Storage.getWorkouts();
+        const index = workouts.findIndex((meal) => meal.id === id);
+        console.log(index);
+        if (index !== -1) {
+            workouts.splice(index, 1);
+        }
         localStorage.setItem('workouts', JSON.stringify(workouts));
     }
 }
