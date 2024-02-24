@@ -1,0 +1,15 @@
+{
+  "name": "algo-testing",
+  "version": "1.0.0",
+  "description": "Algo Testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Arth Limchiu",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
