@@ -7,16 +7,16 @@ function App() {
                 <Button primary>Add to Cart</Button>
             </div>
             <div>
-                <Button>Buy Now</Button>
+                <Button secondary>Buy Now</Button>
             </div>
             <div>
-                <Button>Confirm</Button>
+                <Button success>Confirm</Button>
             </div>
             <div>
-                <Button>Proceed</Button>
+                <Button warning>Proceed</Button>
             </div>
             <div>
-                <Button>Delete</Button>
+                <Button danger>Delete</Button>
             </div>
         </div>
     );
