@@ -9,5 +9,9 @@ export default function App() {
         { label: 'Blue', value: 'blue'},
     ];
 
-    return (<Dropdown options={options} selectedOption={selectedOption} onSelect={setSelectedOption} />);    
+    const onChangeSelectedOption = (newOption) => {
+        setSelectedOption(newOption);
+    };
+
+    return (<Dropdown options={options} value={selectedOption} onChange={onChangeSelectedOption} />);    
 }
