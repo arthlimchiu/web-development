@@ -25,9 +25,13 @@ export default function TablePage() {
         }
     ];
 
+    const keyFn = (fruit) => {
+        return fruit.name;
+    };
+
     return (
         <div>
-            <SortableTable data={data} config={config} />
+            <SortableTable data={data} config={config} keyFn={keyFn} />
         </div>
     );
 }
