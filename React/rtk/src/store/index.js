@@ -19,7 +19,9 @@ const store = configureStore({
     }
 });
 
+// console.log(songsSlice.actions);
+
 const startingState = store.getState();
 console.log(JSON.stringify(startingState));
-store.dispatch({ type: 'song/addSong', payload: 'Song 1' });
+store.dispatch(songsSlice.actions.addSong('Song 2'));
 console.log(JSON.stringify(store.getState()));
