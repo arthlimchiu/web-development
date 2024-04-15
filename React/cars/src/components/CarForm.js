@@ -25,7 +25,7 @@ export default function CarForm() {
     };
 
     return (
-        <div className="car-form-panel">
+        <div className="car-form panel">
             <h4 className="subtitle is-3"></h4>
             <form onSubmit={handleSubmit}>
                 <div className="field-group">
