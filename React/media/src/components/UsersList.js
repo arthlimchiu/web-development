@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { fetchUsers, addUser } from '../store';
 import Skeleton from './Skeleton';
 import Button from './Button';
+import UsersListItem from './UsersListItem';
 import useThunk from '../hooks/use-thunk';
 
 export default function UsersList() {
@@ -29,11 +30,7 @@ export default function UsersList() {
     } else {
         content = data.map((user) => {
             return (
-                <div key={user.id} className="mb-2 border rounded">
-                    <div className="flex p-2 justify-between items-center cursor-pointer">
-                        {user.name}
-                    </div>
-                </div>
+                <UsersListItem key={user.id} user={user} />
             );
         });
     }
