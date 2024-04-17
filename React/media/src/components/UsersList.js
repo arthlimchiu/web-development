@@ -1,24 +1,36 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers } from '../store';
+import { fetchUsers, addUser } from '../store';
 import Skeleton from './Skeleton';
+import Button from './Button';
 
 export default function UsersList() {
+    const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+    const [loadingUsersError, setLoadingUsersError] = useState(null);
+
     const dispatch = useDispatch();
 
-    const { isLoading, data, error } = useSelector((state) => {
+    const { data } = useSelector((state) => {
         return state.users;
     });
 
     useEffect(() => {
-        dispatch(fetchUsers());
+        setIsLoadingUsers(true);
+        dispatch(fetchUsers())
+            .unwrap()
+            .catch((err) => setLoadingUsersError(err))
+            .finally(() => setIsLoadingUsers(false))
     }, []);
 
-    if (isLoading) {
+    const handleUserAdd = () => {
+        dispatch(addUser());
+    };
+
+    if (isLoadingUsers) {
         return <Skeleton times={6} className="h-10 w-full"></Skeleton>;
     }
 
-    if (error) {
+    if (loadingUsersError) {
         return <div>Error fetching data...</div>
     }
 
@@ -33,6 +45,14 @@ export default function UsersList() {
     });
 
     return (
-        <div>{renderedUsers}</div>
+        <div>
+            <div className="flex flex-row justify-between m-3">
+                <h1 className="m2 text-xl">Users</h1>
+                <Button onClick={handleUserAdd}>
+                    + Add User
+                </Button>
+            </div>
+            {renderedUsers}
+        </div>
     );
 }

@@ -1,7 +1,50 @@
 {
-    "users": [
-        { "id": 1, "name": "John" }
-    ],
-    "albums": [],
-    "photos": []
+  "users": [
+    {
+      "id": "327d",
+      "name": "Jose Roberts"
+    },
+    {
+      "id": "31b8",
+      "name": "Hugh Ziemann"
+    },
+    {
+      "id": "6ece",
+      "name": "Essie Herman"
+    },
+    {
+      "id": "fea9",
+      "name": "Monica Schuppe"
+    },
+    {
+      "id": "3fb4",
+      "name": "Cecelia Konopelski"
+    },
+    {
+      "id": "48ef",
+      "name": "Dianna Rolfson"
+    },
+    {
+      "id": "c1dc",
+      "name": "Simon Tremblay"
+    },
+    {
+      "id": "1cea",
+      "name": "Helen Pacocha"
+    },
+    {
+      "id": "e44d",
+      "name": "Cathy Hamill"
+    },
+    {
+      "id": "d836",
+      "name": "Courtney Cronin"
+    },
+    {
+      "id": "4c08",
+      "name": "Isabel Turner"
+    }
+  ],
+  "albums": [],
+  "photos": []
 }
