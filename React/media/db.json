@@ -26,6 +26,11 @@
       "id": 10,
       "title": "Hiking Trip",
       "userId": "6ece"
+    },
+    {
+      "id": "e8b6",
+      "userId": "6ece",
+      "title": "Handcrafted Steel Chips"
     }
   ],
   "photos": []
