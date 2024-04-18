@@ -58,5 +58,36 @@
       "title": "Luxurious Bronze Soap"
     }
   ],
-  "photos": []
+  "photos": [
+    {
+      "id": "6a9b",
+      "albumId": "5df0",
+      "url": "https://loremflickr.com/150/150/abstract?lock=77388"
+    },
+    {
+      "id": "c2d3",
+      "albumId": "5df0",
+      "url": "https://loremflickr.com/150/150/abstract?lock=76692"
+    },
+    {
+      "id": "4935",
+      "albumId": "34dd",
+      "url": "https://loremflickr.com/150/150/abstract?lock=70989"
+    },
+    {
+      "id": "7f86",
+      "albumId": "34dd",
+      "url": "https://loremflickr.com/150/150/abstract?lock=57186"
+    },
+    {
+      "id": "d5fd",
+      "albumId": "34dd",
+      "url": "https://loremflickr.com/150/150/abstract?lock=29917"
+    },
+    {
+      "id": "5050",
+      "albumId": "5df0",
+      "url": "https://loremflickr.com/150/150/abstract?lock=7446"
+    }
+  ]
 }
