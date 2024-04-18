@@ -23,14 +23,39 @@
   ],
   "albums": [
     {
-      "id": 10,
-      "title": "Hiking Trip",
-      "userId": "6ece"
+      "id": "5df0",
+      "userId": "6ece",
+      "title": "Modern Soft Shirt"
     },
     {
-      "id": "e8b6",
+      "id": "36e0",
+      "userId": "2ab6",
+      "title": "Refined Wooden Pants"
+    },
+    {
+      "id": "ef7d",
+      "userId": "3c00",
+      "title": "Incredible Rubber Tuna"
+    },
+    {
+      "id": "38e1",
+      "userId": "3c00",
+      "title": "Fantastic Bronze Pizza"
+    },
+    {
+      "id": "1afe",
+      "userId": "1797",
+      "title": "Tasty Metal Mouse"
+    },
+    {
+      "id": "e211",
+      "userId": "1797",
+      "title": "Practical Cotton Chicken"
+    },
+    {
+      "id": "34dd",
       "userId": "6ece",
-      "title": "Handcrafted Steel Chips"
+      "title": "Luxurious Bronze Soap"
     }
   ],
   "photos": []
